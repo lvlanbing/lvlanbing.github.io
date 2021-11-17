@@ -306,23 +306,6 @@
 
 <!--  -->
 
-<script>
-  /* 标签页标题切换 */
-  var originTitle = document.title;
-  var titleTime;
-  document.addEventListener("visibilitychange", function () {
-    if (document.hidden) {
-      document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
-      clearTimeout(titleTime);
-    } else {
-      document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
-      titleTime = setTimeout(function () {
-        document.title = originTitle;
-      }, 2000);
-    }
-  });
-</script>
-
 
     
 <div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
@@ -438,32 +421,12 @@
             </li>
           
             <li class="search-li">
-              <a href="/null" target="_blank" 
+              <a href="https://space.bilibili.com/14097617/video" target="_blank" 
                 class="search-title" >
                 
                   <i class="icon-link icon"></i>
                 
-                码云
-              </a>
-            </li>
-          
-            <li class="search-li">
-              <a href="/null" target="_blank" 
-                class="search-title" >
-                
-                  <i class="icon-link icon"></i>
-                
-                简书
-              </a>
-            </li>
-          
-            <li class="search-li">
-              <a href="/null" target="_blank" 
-                class="search-title" >
-                
-                  <i class="icon-link icon"></i>
-                
-                CSDN
+                bilibili
               </a>
             </li>
           
