@@ -171,6 +171,192 @@
             
 
   
+    <article id="post-HTTP-Server" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/11/22/HTTP-Server/" target="_blank">HTTP_Server</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/11/22/HTTP-Server/" class="archive-article-date">
+        <time datetime="2021-11-22T10:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-22</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>Web服务器是基于HTTP实现的，而HTTP协议是运行在TCP之上的。所以在创建TCP连接这个过程是与C/S的过程是相似的。</p>
+    
+    <a class="article-more-a" href="/2021/11/22/HTTP-Server/#more">more >></a>
+    
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络编程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/11/22/HTTP-Server/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-TCP-Socket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/11/22/TCP-Socket/" target="_blank">TCP_Socket</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/11/22/TCP-Socket/" class="archive-article-date">
+        <time datetime="2021-11-22T10:17:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-22</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h2><blockquote>
+<p>这里的进程通信是基于网络的通信</p>
+</blockquote>
+<p>进程</p>
+<p><img src="Untitled.png" alt="Untitled"></p>
+<p>进程可以在终端中查看到进程的基本属性。其中在网络通信中最重要的是<code>PID</code>（进程ID，也就是端口号），这样可以在主机上唯一的表示进程。</p>
+<p>在同台主机上，不同的进程可以通过共享内存、管道、信号量和消息队列等。但是在不同的主机下只有通过网络（socket）进行通信。这里我们假设网络通道已经建立好，现在我们只需要使用就可以了。</p>
+<p>现在有一个问题：一台主机如何找到我要交流的主机呢？</p>
+<p>这里就引出了IP这个概念。每一个主机都有一个唯一的IP地址，就像你的家都有一个唯一的地址一样。当你想要与目的主机交流时，就需要提前知道对方的IP地址及<code>PID</code>。</p>
+<p>网络提供了什么样的服务。（这里的网络指的是传输层及以下的）</p>
+<p>我们可以使用socket进行网络编码。socket又分为：TCP socket，UDP socket 和Raw socket。我们主要使用TCP和UDP套接字。</p>
+    
+    <a class="article-more-a" href="/2021/11/22/TCP-Socket/#more">more >></a>
+    
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络编程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/11/22/TCP-Socket/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hexo-blog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -200,7 +386,7 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="hexo-blog"><a href="#hexo-blog" class="headerlink" title="hexo-blog"></a>hexo-blog</h1><p>安装环境：Ubuntu</p>
+    <p>安装环境：Ubuntu</p>
     
     <a class="article-more-a" href="/2021/11/17/hexo-blog/#more">more >></a>
     
@@ -360,6 +546,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">安装教程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">网络编程</a>
               </li>
             
             <div class="clearfix"></div>
