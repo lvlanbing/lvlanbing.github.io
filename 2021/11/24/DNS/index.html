@@ -6,17 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://lvlanbing.github.io">
-  <title>Archives: 2021 | 学习记录</title>
+  <title>DNS | 学习记录</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="学习记录">
-<meta property="og:url" content="https://lvlanbing.github.io/archives/2021/index.html">
+  <meta name="description" content="在浏览器中往往输入的是服务器的域名，很少输入IP地址来访问域名。 IP地址人们往往很难记忆，对名称的记忆更容易。 这就存在域名与IP地址的映射了。 域名转化成IP地址的过程需要DNS服务器进行解析。 而在编码是常用gethostbyname()函数来解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DNS">
+<meta property="og:url" content="https://lvlanbing.github.io/2021/11/24/DNS/index.html">
 <meta property="og:site_name" content="学习记录">
+<meta property="og:description" content="在浏览器中往往输入的是服务器的域名，很少输入IP地址来访问域名。 IP地址人们往往很难记忆，对名称的记忆更容易。 这就存在域名与IP地址的映射了。 域名转化成IP地址的过程需要DNS服务器进行解析。 而在编码是常用gethostbyname()函数来解析">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/24/DNS/Untitled.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/24/DNS/Untitled%201.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/24/DNS/Untitled%202.png">
+<meta property="article:published_time" content="2021-11-24T08:33:05.000Z">
+<meta property="article:modified_time" content="2021-11-24T08:34:43.890Z">
 <meta property="article:author" content="吕兰兵">
+<meta property="article:tag" content="应用层">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lvlanbing.github.io/2021/11/24/DNS/Untitled.png">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -164,41 +173,110 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-DNS" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
+    <h1 class="article-title" itemprop="name">
+      DNS
+    </h1>
+  
+
+
+  
+  
 <a href="/2021/11/24/DNS/" class="archive-article-date">
         <time datetime="2021-11-24T08:33:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-24</time>
 </a>
 
-        </div>
-    	 
   
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/11/24/DNS/" target="_blank">DNS</a>
   
-    </h1>
-  
+    
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">434字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">1分</span>
+    </span>
+  </span>
+</div>
 
 
-        <div class="article-info info-on-right">
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>在浏览器中往往输入的是服务器的域名，很少输入IP地址来访问域名。</p>
+<p>IP地址人们往往很难记忆，对名称的记忆更容易。</p>
+<p>这就存在域名与IP地址的映射了。</p>
+<p>域名转化成IP地址的过程需要DNS服务器进行解析。</p>
+<p>而在编码是常用<code>gethostbyname()</code>函数来解析</p>
+<span id="more"></span>
+
+<p>我们的计算机上有DNS客户端向DNS服务器发送服务请求</p>
+<p>生成查询消息</p>
+<p>向DNS服务器发送查询消息</p>
+<p>交给UDP来传输到目标服务器</p>
+<p>DNS服务器根据查询消息返回响应消息</p>
+<p>DNS使用的是53端口</p>
+<p>假设离主机最近的DNS服务器，主机查询的名字在该区域内部和在缓存中，那么本地DNS服务器就直接返回信息</p>
+<p>DNS服务器有缓存功能，可以记住之前查询过的域名。一般存活时间为2天</p>
+<p>一台DNS服务器不可能包含所有的信息。</p>
+<p>一台DNS服务器可以管理多个域的信息</p>
+<p>DNS服务器中的所有信息都是按照域名以分层次的结构来保存的。顶级域(TLD)服务器</p>
+<p><img src="Untitled.png" alt="Untitled"></p>
+<p>一个域名为<a target="_blank" rel="noopener" href="http://www.example.com.该域名下可以分配子域,比如www.sub1.example.com/">www.example.com。该域名下可以分配子域，比如www.sub1.example.com</a>; <a target="_blank" rel="noopener" href="http://www.sub2.example.com.但是需要www.example.com域同意./">www.sub2.example.com.但是需要www.example.com域同意。</a></p>
+<p>当本地DNS服务器中没有时，就需要向根DNS服务器进行查询。查询方式有两种。</p>
+<p>递归查询：向根服务器查询，让根服务器找到后在返回域名信息</p>
+<p><img src="Untitled%201.png" alt="Untitled"></p>
+<p>迭代查询：向根服务器查询，根服务器则告诉你，你应该找谁，以此循环</p>
+<p><img src="Untitled%202.png" alt="Untitled"></p>
+
+    
+
+    
+
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          吕兰兵
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="https://lvlanbing.github.io/2021/11/24/DNS/" title="DNS" target="_blank">https://lvlanbing.github.io/2021/11/24/DNS/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
           
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -210,203 +288,107 @@
 		</ul>
 	</div>
 
-          
+    
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://lvlanbing.github.io/2021/11/24/DNS/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/" class="archive-article-date">
-        <time datetime="2021-11-23T12:29:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-23</time>
-</a>
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">进程状态</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/" target="_blank">进程状态</a>
-  
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/11/22/HTTP-Server/" class="archive-article-date">
-        <time datetime="2021-11-22T10:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-22</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/11/22/HTTP-Server/" target="_blank">HTTP_Server</a>
-  
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">应用层</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/11/22/TCP-Socket/" class="archive-article-date">
-        <time datetime="2021-11-22T10:17:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-22</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/11/22/TCP-Socket/" target="_blank">TCP_Socket</a>
-  
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">应用层</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2021/11/17/hexo-blog/" class="archive-article-date">
-        <time datetime="2021-11-17T06:51:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-17</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2021/11/17/hexo-blog/" target="_blank">hexo blog</a>
-  
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">安装教程</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
 
 
           </div>
@@ -435,8 +417,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
