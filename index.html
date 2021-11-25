@@ -295,6 +295,7 @@
     <p>进程的5种状态：创建，就绪，运行，阻塞，完成</p>
 <p>在用户编写程序使用<code>fork()</code>函数可以创建子进程</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pid为0是父进程，大于0为子进程，下于0则是创建失败</span></span><br><span class="line"><span class="keyword">pid_t</span> pid;</span><br><span class="line">pid = fork();</span><br></pre></td></tr></table></figure>
+<p><img src="%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81.png" alt="进程状态转移图"></p>
     
     <a class="article-more-a" href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/#more">more >></a>
     
