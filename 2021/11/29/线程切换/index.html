@@ -6,21 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://lvlanbing.github.io">
-  <title>学习记录</title>
+  <title>线程切换 | 学习记录</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    
-    <!-- <meta name="keywords" content="">
-    <meta name="description" content=""> -->
-  
-  <meta property="og:type" content="website">
-<meta property="og:title" content="学习记录">
-<meta property="og:url" content="https://lvlanbing.github.io/index.html">
+  <meta name="description" content="进程：指令执行序列+资源。进程的切换除了PC指针（程序计数器，存放下一条指令地址）的变化，映射表（资源）也要发生变化。 线程：一个进程中有多个线程，它们共用该进程中的资源。所以线程的切换不需要对资源进行切换。线程的切换的速度就要比进程的切换要快很多。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程切换">
+<meta property="og:url" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/index.html">
 <meta property="og:site_name" content="学习记录">
+<meta property="og:description" content="进程：指令执行序列+资源。进程的切换除了PC指针（程序计数器，存放下一条指令地址）的变化，映射表（资源）也要发生变化。 线程：一个进程中有多个线程，它们共用该进程中的资源。所以线程的切换不需要对资源进行切换。线程的切换的速度就要比进程的切换要快很多。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled%201.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled%202.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled%203.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled%204.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled%205.png">
+<meta property="og:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled%206.png">
+<meta property="article:published_time" content="2021-11-29T13:28:32.000Z">
+<meta property="article:modified_time" content="2021-11-29T13:31:49.062Z">
 <meta property="article:author" content="吕兰兵">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="线程">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/Untitled.png">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -168,19 +178,14 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-
-  
-    <article id="post-线程切换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-线程切换" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/" target="_blank">线程切换</a>
-  
+    <h1 class="article-title" itemprop="name">
+      线程切换
     </h1>
   
 
@@ -194,6 +199,27 @@
   
   
     
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">3.8k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">14分</span>
+    </span>
+  </span>
+</div>
+
 
   
   </header>
@@ -202,13 +228,130 @@
     
     <p>进程：指令执行序列+资源。进程的切换除了PC指针（程序计数器，存放下一条指令地址）的变化，映射表（资源）也要发生变化。</p>
 <p>线程：一个进程中有多个线程，它们共用该进程中的资源。所以线程的切换不需要对资源进行切换。线程的切换的速度就要比进程的切换要快很多。</p>
-    
-    <a class="article-more-a" href="/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/#more">more >></a>
-    
+<span id="more"></span>
+<p>先说线程的切换</p>
+<p>线程A在切换到线程C的时候需要保存线程A之前运行的结果和之后又要重那里接着运行的地址。</p>
+<p>这里我们使用栈来保存</p>
+<p><img src="Untitled.png" alt="Untitled"></p>
+<p>上图是两个线程使用一个栈，其中数字对应着地址。Yeild函数指定切换到那里。在用户态可以自己编写切换程序，但是在内核中只能使用内核的切换算法了。</p>
+<p>想一想这样做能成功的从<code>2</code>准确的回到<code>3</code>并正常运行？</p>
+<p>当回到(3)处，遇到“}”时要出栈。出栈的第一个地址为404，现在有回到另一个线程。然后执行404后的代码再遇到”}”时有出栈，地址为304。这就切换失败了，但是能切换。</p>
+<p>如果每个线程都有自己的栈会不会更好一点。这就出现每个线程都有自己的线程控制块（TCB）。每个栈都与TCB进行关联。当前栈的栈顶地址是存放在CPU里面的<code>esp</code>寄存器里面的， 因此只需要改变<code>esp</code>的值就可以切换栈了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Yield</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	TCB2.esp = esp;			<span class="comment">// 保存当前栈顶地址</span></span><br><span class="line">	esp = TCB1.esp;			<span class="comment">// 切换栈</span></span><br><span class="line">	jmp <span class="number">204</span>;				</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在(3)后遇到“}”后根据栈出了的地址为204。我们想要的是回到104地址了，还是失败了，但是并没有在另一个线程中了。</p>
+<p>解决：</p>
+<p><img src="Untitled%201.png" alt="Untitled"></p>
+<p>就是把Yield中的 jmp 204 地址去到。也就是在Yield中的函数中“}”时就把204地址弹出了，再遇到B()中的”}”时弹出来的就是104地址了。</p>
+<p>现在就线程切换的思路了。</p>
+<p>目前只是用户态下的切换，并没有涉及到内核态。</p>
+<p>问题：<del>用户态线程内核是不知道的，当用户态中的一个线程要去访问磁盘资源，内核不知道，就让该进程继续使用CPU资源，但是它并没有在使用CPU。这就造成了资源的浪费。</del></p>
+<p>用户态一个进程有多个线程，当一个线程阻塞了。内核是看不到用户的线程，则就把进程切换了。导致进程中的线程无法切换了。</p>
+<p><img src="Untitled%202.png" alt="Untitled"></p>
+<p>多核处理器用的是同一个MMU（Memory Management Unit），这就是多线程模式。则内核级线程技术，能更好的发挥硬件的优势。</p>
+<p><img src="Untitled%203.png" alt="Untitled"></p>
+<p>用户级线程与内核级线程：</p>
+<p>用户级线程在发生中断才能进入到内核级线程</p>
+<p>内核级线程是要在内核中执行的程序。则内核级线程需要在用户态和核心态里跑，用户态有一个用户栈，核心态中有一个核心栈。用户栈和核心栈称为一套栈。</p>
+<br>
+
+<p>同又出现了一个新的问题就是：用户态的线程怎么和内核态下的线程协同合作呢？</p>
+<p>用户栈与内核栈之间的关联。</p>
+<p>一个栈到一套栈；两个栈到两套栈。用户态下的栈与内核态下的栈关联起来。</p>
+<p>中断时，线程进入到内核中，OS根据硬件的寄存器来知道这个线程，它对应的内核栈在那里。同时回将用户态的栈的位置（<code>SS，SP</code>）和程序执行到那里的位置<code>（CS(Code Segment)，IP(Instruction Pointer)）</code>都压入内核栈中保存下来。</p>
+<p>线程在内核中执行完，退出内核态回到用户态时（也就是iret指令），就根据之前的内核栈中存入的<code>SS和SP</code>的值来找用户栈，根据<code>CS和PC</code>值找程序接下来该执行的位置。</p>
+<p>例子：</p>
+<p><img src="Untitled%204.png" alt="Untitled"></p>
+<p>在内核中线程的切换是通过switch_to()函数实现的，就是从当前线程的内核栈切换到next线程的内核栈。</p>
+<p>内核级线程的代码还是在用户态的，只是进入内核态完成系统调用，就是逛一圈之后还是要回去执行的。</p>
+<p>线程S切换到线程T要根据线程T的内核栈找到这个线程阻塞的位置，执行线程T的函数。线程T的内核栈之后，通过iret指令从内核栈返回到用户态执行线程T的代码。</p>
+<p>内核级线程的切换五个步骤：</p>
+<ul>
+<li>中断进入内核</li>
+<li>在内核态中，由于启动磁盘或者时钟中断，引发线程切换</li>
+<li>通过TCB对内核栈进行切换</li>
+<li>使用iret推出中断，对用户栈进行切换。内核栈和用户栈都完成了切换</li>
+<li>如果线程不是同一个进程，还需要对内存映射表进行切换</li>
+</ul>
+<h2 id="实验：基于内核栈切换的进程切换"><a href="#实验：基于内核栈切换的进程切换" class="headerlink" title="实验：基于内核栈切换的进程切换"></a>实验：基于内核栈切换的进程切换</h2><p>环境：linux0.11</p>
+<p>Linux0.11完成进程切换是依靠任务状态段（task state segment, TSS)的切换来完成的。</p>
+<p>现在我们要舍弃TSS，重新写一个切换程序。</p>
+<p>关于TSS具体的过程参考该<a target="_blank" rel="noopener" href="https://www.lanqiao.cn/courses/115/learning/?id=571"><strong>链接</strong></a></p>
+<p>有一个任务寄存器（Task Register，简称 TR）指向当前进程对应的 TSS 结构体，所谓的 TSS 切换就将 CPU 中几乎所有的寄存器都复制到 TR 指向的那个 TSS 结构体中保存起来，同时找到一个目标 TSS，即要切换到的下一个进程对应的 TSS，将其中存放的寄存器映像“扣在” CPU 上，就完成了执行现场的切换。</p>
+<p>虽然用一条指令就能完成任务切换，但这指令的执行时间却很长，这条 ljmp 指令在实现任务切换时大概需要 200 多个时钟周期（TSS）。而通过堆栈实现任务切换可能要更快，而且采用堆栈的切换还可以使用指令流水的并行优化技术，同时又使得 CPU 的设计变得简单</p>
+<p>进程的切换：PCB和内存映射表都要切换</p>
+<p>原始的切换位置的程序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * &#x27;schedule()&#x27;是调度函数。这是个很好的代码！没有任何理由对它进行修改，因为它可以在所有的</span></span><br><span class="line"><span class="comment"> * 环境下工作（比如能够对IO-边界处理很好的响应等）。只有一件事值得留意，那就是这里的信号</span></span><br><span class="line"><span class="comment"> * 处理代码。</span></span><br><span class="line"><span class="comment"> * 注意！！任务0 是个闲置(&#x27;idle&#x27;)任务，只有当没有其它任务可以运行时才调用它。它不能被杀</span></span><br><span class="line"><span class="comment"> * 死，也不能睡眠。任务0 中的状态信息&#x27;state&#x27;是从来不用的。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">schedule</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i, next, c;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> **<span class="title">p</span>;</span>	<span class="comment">// 任务结构指针的指针。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 检测alarm（进程的报警定时值），唤醒任何已得到信号的可中断任务 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从任务数组中最后一个任务开始检测alarm。</span></span><br><span class="line">	<span class="keyword">for</span> (p = &amp;LAST_TASK; p &gt; &amp;FIRST_TASK; --p)</span><br><span class="line">		<span class="keyword">if</span> (*p)</span><br><span class="line">		&#123;</span><br><span class="line"><span class="comment">// 如果任务的alarm 时间已经过期(alarm&lt;jiffies),则在信号位图中置SIGALRM 信号，然后清alarm。</span></span><br><span class="line"><span class="comment">// jiffies 是系统从开机开始算起的滴答数（10ms/滴答）。定义在sched.h 第139 行。</span></span><br><span class="line">			<span class="keyword">if</span> ((*p)-&gt;alarm &amp;&amp; (*p)-&gt;alarm &lt; jiffies)</span><br><span class="line">			&#123;</span><br><span class="line">				(*p)-&gt;signal |= (<span class="number">1</span> &lt;&lt; (SIGALRM - <span class="number">1</span>));</span><br><span class="line">				(*p)-&gt;alarm = <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line"><span class="comment">// 如果信号位图中除被阻塞的信号外还有其它信号，并且任务处于可中断状态，则置任务为就绪状态。</span></span><br><span class="line"><span class="comment">// 其中&#x27;~(_BLOCKABLE &amp; (*p)-&gt;blocked)&#x27;用于忽略被阻塞的信号，但SIGKILL 和SIGSTOP 不能被阻塞。</span></span><br><span class="line">			<span class="keyword">if</span> (((*p)-&gt;signal &amp; ~(_BLOCKABLE &amp; (*p)-&gt;blocked)) &amp;&amp;</span><br><span class="line">					(*p)-&gt;state == TASK_INTERRUPTIBLE)</span><br><span class="line">				(*p)-&gt;state = TASK_RUNNING;	<span class="comment">//置为就绪（可执行）状态。</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 这里是调度程序的主要部分 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		c = <span class="number">-1</span>;</span><br><span class="line">		next = <span class="number">0</span>;</span><br><span class="line">		i = NR_TASKS;</span><br><span class="line">		p = &amp;task[NR_TASKS];</span><br><span class="line"><span class="comment">// 这段代码也是从任务数组的最后一个任务开始循环处理，并跳过不含任务的数组槽。比较每个就绪</span></span><br><span class="line"><span class="comment">// 状态任务的counter（任务运行时间的递减滴答计数）值，哪一个值大，运行时间还不长，next 就</span></span><br><span class="line"><span class="comment">// 指向哪个的任务号。</span></span><br><span class="line">		<span class="keyword">while</span> (--i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (!*--p)</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)</span><br><span class="line">				c = (*p)-&gt;counter, next = i;</span><br><span class="line">		&#125;</span><br><span class="line">      <span class="comment">// 如果比较得出有counter 值大于0 的结果，则退出124 行开始的循环，执行任务切换（141 行）。</span></span><br><span class="line">		<span class="keyword">if</span> (c)</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">      <span class="comment">// 否则就根据每个任务的优先权值，更新每一个任务的counter 值，然后回到125 行重新比较。</span></span><br><span class="line">      <span class="comment">// counter 值的计算方式为counter = counter /2 + priority。[右边counter=0??]</span></span><br><span class="line">		<span class="keyword">for</span> (p = &amp;LAST_TASK; p &gt; &amp;FIRST_TASK; --p)</span><br><span class="line">			<span class="keyword">if</span> (*p)</span><br><span class="line">				(*p)-&gt;counter = ((*p)-&gt;counter &gt;&gt; <span class="number">1</span>) + (*p)-&gt;priority;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">switch_to</span> (next);		<span class="comment">// 切换到任务号为next 的任务，并运行之。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>switch_to()为切换函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//TSS切换函数如下</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> switch_to(n) &#123;\</span></span><br><span class="line"><span class="meta">struct &#123;long a,b;&#125; __tmp; \</span></span><br><span class="line"><span class="meta">__asm__( <span class="meta-string">&quot;cmpl %%ecx,_current\n\t&quot;</span> \	</span></span><br><span class="line">  <span class="string">&quot;je 1f\n\t&quot;</span> \			</span><br><span class="line">  <span class="string">&quot;movw %%dx,%1\n\t&quot;</span> \		</span><br><span class="line">  <span class="string">&quot;xchgl %%ecx,_current\n\t&quot;</span> \	。</span><br><span class="line">  <span class="string">&quot;ljmp %0\n\t&quot;</span> \		。</span><br><span class="line"><span class="comment">// 在任务切换回来后才会继续执行下面的语句。</span></span><br><span class="line">  <span class="string">&quot;cmpl %%ecx,_last_task_used_math\n\t&quot;</span> \	</span><br><span class="line">  <span class="string">&quot;jne 1f\n\t&quot;</span> \		</span><br><span class="line">  <span class="string">&quot;clts\n&quot;</span> \			</span><br><span class="line">  <span class="string">&quot;1:&quot;</span>::<span class="string">&quot;m&quot;</span> (*&amp;__tmp.a), <span class="string">&quot;m&quot;</span> (*&amp;__tmp.b),</span><br><span class="line">  <span class="string">&quot;d&quot;</span> (_TSS (n)), <span class="string">&quot;c&quot;</span> ((<span class="keyword">long</span>) task[n]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改：我们需要一个指针指向我们要切换的地址，进程切换必然要涉及到 LDT 的切换。linux0.11是没有线程的。</p>
+<p>每个进程对应有 1 个 TSS 和 1 个 LDT，LDT 就是个映射表</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对应的修改为：</span></span><br><span class="line"><span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">/* code */</span></span><br><span class="line">				c = (*p)-&gt;counter, next = i; pnext = *p;</span><br><span class="line">			&#125;</span><br><span class="line"><span class="comment">//当前的进程使用全局变量保存的，所以只需要下一个要切换的进程</span></span><br><span class="line"><span class="comment">//pnext 是任务结构指针，也就是堆栈</span></span><br><span class="line"><span class="built_in">switch_to</span>(pnext, _LDT(next));</span><br></pre></td></tr></table></figure>
+
+<p>重新switch_to函数</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.align</span> 2 #对齐伪指令，必须从一个能被2整除的地址开始为下面的内存变量分配空间</span><br><span class="line">switch_to:</span><br><span class="line">#这一部分的解释，看上述内存模型: stack</span><br><span class="line">	pushl %ebp</span><br><span class="line">	movl %esp,%ebp</span><br><span class="line">	pushl %ecx</span><br><span class="line">	pushl %ebx</span><br><span class="line">	pushl %eax</span><br><span class="line">	movl <span class="number">8</span>(%ebp),%ebx # 调用switch_to的第一个参数，即pnext——目标进程的PCB</span><br><span class="line">	cmpl %ebx, current #和 current 做一个比较, current指向当前进程的PCB</span><br><span class="line">	je <span class="number">1</span>f   #相等就啥也不用做，跳转到“<span class="number">1</span>：”直接恢复保存的寄存器即可</span><br><span class="line">#不相等，开始进程切换</span><br><span class="line">#先切换PCB</span><br><span class="line">	movl %ebx,%eax #eax指向目标进程的PCB</span><br><span class="line">	xchgl %eax,current #current指向目标进程的PCB, eax指向当前进程的PCB</span><br><span class="line"></span><br><span class="line">#TSS中的内核指针的重写</span><br><span class="line">	movl tss,%ecx #ecx指向当前进程的TSS</span><br><span class="line">	addl $<span class="number">4096</span>,%ebx #ebx指向的是目标进程的PCB，+<span class="number">4096</span>后指向目标进程的内核栈</span><br><span class="line">	movl %ebx,ESP0(%ecx) #TSS的esp0指向目标进程的内核栈</span><br><span class="line"></span><br><span class="line">#切换内核栈栈顶指针（切换当前的内核栈为目标内核栈）；当然要先保存被切换进程的esp</span><br><span class="line">	movl %esp, KERNEL_STACK(%eax) #把当前进程的esp保存到其PCB中</span><br><span class="line">	movl <span class="number">8</span>(%ebp),%ebx #再一次把目标进程的PCB存储到ebx中</span><br><span class="line">	movl KERNEL_STACK(%ebx),%esp #把目标进程PCB中的内核栈基址存储到esp中</span><br><span class="line"></span><br><span class="line">#切换LDT</span><br><span class="line">	movl <span class="number">12</span>(%ebp),%ecx #把_LDT(next)存储到ecx中</span><br><span class="line">	lldt %cx #修改LDTR寄存器后，目标进程在执行用户态程序时使用的映射表就是自己的LDT表，实现了地址空间的分离。</span><br><span class="line"></span><br><span class="line">#通过ret完成PC的切换</span><br><span class="line"></span><br><span class="line">#切换LDT之后，更新fs，指向目标进程的用户态内存</span><br><span class="line">	movl $<span class="number">0</span>x17,%ecx  #用户空间数据段选择符为<span class="number">0</span>x17</span><br><span class="line">	mov %cx,%fs </span><br><span class="line"></span><br><span class="line">#和后面的clts配合来处理协处理器，由于和主题关系不大，此处不做论述</span><br><span class="line">	cmpl %eax, last_task_used_math</span><br><span class="line">	jne <span class="number">1</span>f</span><br><span class="line">	clts</span><br><span class="line"><span class="number">1</span>:</span><br><span class="line">	popl %eax</span><br><span class="line">	popl %ebx</span><br><span class="line">	popl %ecx</span><br><span class="line">	popl %ebp</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+<p>由于现在的 Linux 0.11 的 PCB 定义中没有保存内核栈指针这个域，所以需要加上，而宏 <code>KERNEL_STACK</code> 就是你加的那个位置，当然将 kernelstack 域加在 task_struct。</p>
+<p>在linux-0.11/include/linux/sched.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line"><span class="comment">/* these are hardcoded - don&#x27;t touch */</span></span><br><span class="line">	<span class="keyword">long</span> state;	<span class="comment">/* -1 unrunnable, 0 runnable, &gt;0 stopped */</span></span><br><span class="line">	<span class="keyword">long</span> counter;</span><br><span class="line">	<span class="keyword">long</span> priority;</span><br><span class="line">	<span class="keyword">long</span> kernelstack;</span><br><span class="line">	<span class="keyword">long</span> signal;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">sigaction</span>[32];</span></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改了结构体，同时也要修改该结构体的初始化。位置要对应起来</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INIT_TASK \</span></span><br><span class="line"><span class="meta"><span class="comment">/* state etc */</span>	&#123; 0,15,15,PAGE_SIZE+(long)&amp;init_task, \</span></span><br><span class="line"><span class="meta"><span class="comment">/* signals */</span>	0,&#123;&#123;&#125;,&#125;,0, \</span></span><br><span class="line"><span class="meta"><span class="comment">/* ec,brk... */</span>	0,0,0,0,0,0, \</span></span><br><span class="line"><span class="meta"><span class="comment">/* pid etc.. */</span>	0,-1,0,0,0, \</span></span><br><span class="line"><span class="meta"><span class="comment">/* uid etc */</span>	0,0,0,0,0,0, \</span></span><br><span class="line"><span class="meta"><span class="comment">/* alarm */</span>	0,0,0,0,0,0, \</span></span><br><span class="line"><span class="meta"><span class="comment">/* math */</span>	0, \  </span></span><br></pre></td></tr></table></figure>
+
+<p>修改fork</p>
+<p>就是要把进程的用户栈、用户程序和其内核栈通过压在内核栈中的 <code>SS:ESP</code>，<code>CS:IP</code> 关联在一起。</p>
+<p>在 fork() 的核心实现 <code>copy_process</code> 中，<code>p = (struct task_struct *) get_free_page();</code>用来完成申请一页内存(大小4k)作为子进程的 PCB</p>
+<p>而 p 指针加上页面大小就是子进程的内核栈位置，所以语句 <code>krnstack = (long *) (PAGE_SIZE + (long) p);</code> 就可以找到子进程的内核栈位置</p>
+<p>接下来就是初始化krnstack</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*(--krnstack) = ss &amp; <span class="number">0xffff</span>;</span><br><span class="line">*(--krnstack) = esp;</span><br><span class="line">*(--krnstack) = eflags;</span><br><span class="line">*(--krnstack) = cs &amp; <span class="number">0xffff</span>;</span><br><span class="line">*(--krnstack) = eip;</span><br></pre></td></tr></table></figure>
+
+<p>完成了如下图的关联</p>
+<p><img src="Untitled%205.png" alt="Untitled"></p>
+<p>由于 fork() 这个叉子的含义就是要让父子进程共用同一个代码、数据和堆栈，现在虽然是使用内核栈完成任务切换，但 fork() 的基本含义不会发生变化。</p>
+<p>内核切换完事，到子进程的内核栈开始工作，接下来做的四次弹栈以及 ret 处理使用的都是子进程内核栈中的东西，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>: popl %eax</span><br><span class="line">    popl %ebx</span><br><span class="line">    popl %ecx</span><br><span class="line">    popl %ebp</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
+
+<p><img src="Untitled%206.png" alt="Untitled"></p>
+<p>为了顺利的完成这些弹栈工作，子进程的内核栈中应该有这些内容，所以需要对 krnstack 进行初始化</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*(--krnstack) = ebp;</span><br><span class="line">*(--krnstack) = ecx;</span><br><span class="line">*(--krnstack) = ebx;</span><br><span class="line"><span class="comment">// 这里的 0 最有意思。</span></span><br><span class="line">*(--krnstack) = <span class="number">0</span>;<span class="comment">//eax</span></span><br></pre></td></tr></table></figure>
+
+<p>现在到了 ret 指令了，这条指令要从内核栈中弹出一个 32 位数作为 EIP 跳去执行，所以需要弄一个函数地址（仍然是一段汇编程序，所以这个地址是这段汇编程序开始处的标号）并将其初始化到栈中</p>
+<p>我们弄的一个名为 <code>first_return_from_kernel</code> 的汇编标号，然后可以用语句 <code>(--krnstack) = (long) first_return_from_kernel;</code> 将这个地址初始化到子进程的内核栈中，现在执行 ret 以后就会跳转到 <code>first_return_from_kernel</code> 去执行了。</p>
+<p><code>first_return_from_kernel</code> 完成用户栈和用户代码的切换。依靠的核心指令就是 iret，切换之前需要回复一下执行现场</p>
+<p><code>first_return_from_kernel</code> 的核心代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">popl %edx</span><br><span class="line">popl %edi</span><br><span class="line">popl %esi</span><br><span class="line">pop %gs</span><br><span class="line">pop %fs</span><br><span class="line">pop %es</span><br><span class="line">pop %ds</span><br><span class="line">iret</span><br></pre></td></tr></table></figure>
+
+<p>将存放在 PCB 中的内核栈指针修改到初始化完成时内核栈的栈顶</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p-&gt;kernelstack = krnstack;</span><br></pre></td></tr></table></figure>
+
+<p>问题</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//kernel/sched.c在schedule函数中</span></span><br><span class="line"><span class="comment">//下面这段代码能正常编译，但是无法正常运行</span></span><br><span class="line"><span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)</span><br><span class="line">		c = (*p)-&gt;counter, next = i; pnext = *p;</span><br><span class="line">			</span><br><span class="line"><span class="comment">//而这段代码这可以正常运行</span></span><br><span class="line"><span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)</span><br><span class="line">			c = (*p)-&gt;counter, next = i, pnext=*p;    <span class="comment">/**/</span></span><br><span class="line"><span class="comment">//其实这两段代码都是相同，为什么有这种差异。</span></span><br><span class="line"><span class="comment">//我重新写一遍又都正常了，奇怪。</span></span><br><span class="line"><span class="comment">//就这个问题困扰了我很久还没有解决，只有重新写。</span></span><br></pre></td></tr></table></figure>
     
 
     
 
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          吕兰兵
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="https://lvlanbing.github.io/2021/11/29/线程切换/" title="线程切换" target="_blank">https://lvlanbing.github.io/2021/11/29/线程切换/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
     
 
   </div>
@@ -233,16 +376,76 @@
     
 
     
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/">展开全文 >></a>
-    </p>
+
     
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://lvlanbing.github.io/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
 
     
     <div class="clearfix"></div>
   </div>
   </div>
 </article>
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2021/11/24/DNS/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DNS</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -263,477 +466,14 @@
 
 
 
-  
-    <article id="post-DNS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/11/24/DNS/" target="_blank">DNS</a>
-  
-    </h1>
-  
 
 
-  
-  
-<a href="/2021/11/24/DNS/" class="archive-article-date">
-        <time datetime="2021-11-24T08:33:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-24</time>
-</a>
 
-  
-  
-    
 
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>在浏览器中往往输入的是服务器的域名，很少输入IP地址来访问域名。</p>
-<p>IP地址人们往往很难记忆，对名称的记忆更容易。</p>
-<p>这就存在域名与IP地址的映射了。</p>
-<p>域名转化成IP地址的过程需要DNS服务器进行解析。</p>
-<p>而在编码是常用<code>gethostbyname()</code>函数来解析</p>
-    
-    <a class="article-more-a" href="/2021/11/24/DNS/#more">more >></a>
-    
-    
 
-    
 
-    
 
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">应用层</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/11/24/DNS/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-进程状态" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/" target="_blank">进程状态</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/" class="archive-article-date">
-        <time datetime="2021-11-23T12:29:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-23</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>进程的5种状态：创建，就绪，运行，阻塞，完成</p>
-<p>在用户编写程序使用<code>fork()</code>函数可以创建子进程</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pid为0是父进程，大于0为子进程，下于0则是创建失败</span></span><br><span class="line"><span class="keyword">pid_t</span> pid;</span><br><span class="line">pid = fork();</span><br></pre></td></tr></table></figure>
-<p><img src="%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81.png" alt="进程状态转移图"></p>
-    
-    <a class="article-more-a" href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/11/23/%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP-Server" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/11/22/HTTP-Server/" target="_blank">HTTP_Server</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/11/22/HTTP-Server/" class="archive-article-date">
-        <time datetime="2021-11-22T10:23:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-22</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>Web服务器是基于HTTP实现的，而HTTP协议是运行在TCP之上的。所以在创建TCP连接这个过程是与C/S的过程是相似的。</p>
-    
-    <a class="article-more-a" href="/2021/11/22/HTTP-Server/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">应用层</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/11/22/HTTP-Server/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TCP-Socket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/11/22/TCP-Socket/" target="_blank">TCP_Socket</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/11/22/TCP-Socket/" class="archive-article-date">
-        <time datetime="2021-11-22T10:17:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-22</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h2 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h2><blockquote>
-<p>这里的进程通信是基于网络的通信</p>
-</blockquote>
-<p>进程</p>
-<p><img src="Untitled.png" alt="Untitled"></p>
-<p>进程可以在终端中查看到进程的基本属性。其中在网络通信中最重要的是<code>PID</code>（进程ID，也就是端口号），这样可以在主机上唯一的表示进程。</p>
-<p>在同台主机上，不同的进程可以通过共享内存、管道、信号量和消息队列等。但是在不同的主机下只有通过网络（socket）进行通信。这里我们假设网络通道已经建立好，现在我们只需要使用就可以了。</p>
-<p>现在有一个问题：一台主机如何找到我要交流的主机呢？</p>
-<p>这里就引出了IP这个概念。每一个主机都有一个唯一的IP地址，就像你的家都有一个唯一的地址一样。当你想要与目的主机交流时，就需要提前知道对方的IP地址及<code>PID</code>。</p>
-<p>网络提供了什么样的服务。（这里的网络指的是传输层及以下的）</p>
-<p>我们可以使用socket进行网络编码。socket又分为：TCP socket，UDP socket 和Raw socket。我们主要使用TCP和UDP套接字。</p>
-    
-    <a class="article-more-a" href="/2021/11/22/TCP-Socket/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">网络编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">应用层</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/11/22/TCP-Socket/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-blog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/11/17/hexo-blog/" target="_blank">hexo blog</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/11/17/hexo-blog/" class="archive-article-date">
-        <time datetime="2021-11-17T06:51:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-17</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>安装环境：Ubuntu</p>
-    
-    <a class="article-more-a" href="/2021/11/17/hexo-blog/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">安装教程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/11/17/hexo-blog/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
 
 
           </div>
@@ -761,8 +501,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
