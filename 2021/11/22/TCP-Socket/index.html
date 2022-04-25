@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=auto>
 
 
 
@@ -20,9 +20,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP_Socket">
 <meta property="og:url" content="https://lvlanbing.github.io/2021/11/22/TCP-Socket/index.html">
-<meta property="og:site_name" content="学习记录">
+<meta property="og:site_name" content="吕兰兵的博客">
 <meta property="og:description" content="进程通信 这里的进程通信是基于网络的通信  进程  进程可以在终端中查看到进程的基本属性。其中在网络通信中最重要的是PID（进程ID，也就是端口号），这样可以在主机上唯一的表示进程。 在同台主机上，不同的进程可以通过共享内存、管道、信号量和消息队列等。但是在不同的主机下只有通过网络（socket）进行通信。这里我们假设网络通道已经建立好，现在我们只需要使用就可以了。 现在有一个问题：一台主机如何找">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lvlanbing.github.io/2021/11/22/TCP-Socket/Untitled.png">
 <meta property="og:image" content="https://lvlanbing.github.io/2021/11/22/TCP-Socket/Untitled1.png">
 <meta property="article:published_time" content="2021-11-22T10:17:39.000Z">
@@ -34,7 +34,7 @@
 <meta name="twitter:image" content="https://lvlanbing.github.io/2021/11/22/TCP-Socket/Untitled.png">
   
   
-  <title>TCP_Socket - 学习记录</title>
+  <title>TCP_Socket - 吕兰兵的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -103,7 +103,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                Home
+                首页
               </a>
             </li>
           
@@ -115,7 +115,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                Archives
+                归档
               </a>
             </li>
           
@@ -127,7 +127,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                Categories
+                分类
               </a>
             </li>
           
@@ -139,7 +139,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                Tags
+                标签
               </a>
             </li>
           
@@ -151,7 +151,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                About
+                关于
               </a>
             </li>
           
@@ -191,7 +191,7 @@
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
       <time datetime="2021-11-22 18:17" pubdate>
-        November 22, 2021 pm
+        2021年11月22日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      undefined 字
+      2.3k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      NaN 分钟
+      19 分钟
     </span>
   
 
@@ -266,32 +266,32 @@
 <p>这个整数是一个具有本地意义的标示，对方是不可见的。你去到对方的邮局当然没这种效果了阿！        </p>
 <p>对于TCP套接字这个整数表示：<code>(源IP，源port，目标IP，目标port)</code>。不必在每个报文的发送都要指定这4元组。</p>
 <h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>创建TCP套接字</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> serverSocket,connectSocket;</span><br><span class="line"><span class="comment">//如果不是TCP套接字，则socket中的参数需要修改</span></span><br><span class="line"><span class="keyword">if</span>((serverSocket = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM,<span class="number">0</span>)) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;socket&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> serverSocket,connectSocket;<br><span class="hljs-comment">//如果不是TCP套接字，则socket中的参数需要修改</span><br><span class="hljs-keyword">if</span>((serverSocket = <span class="hljs-built_in">socket</span>(AF_INET, SOCK_STREAM,<span class="hljs-number">0</span>)) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">perror</span>(<span class="hljs-string">&quot;socket&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
 <p>初始化主机状态</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line">u_short port = <span class="number">2344</span>;</span><br><span class="line"><span class="built_in">memset</span>((<span class="keyword">char</span>*)&amp;server_addr, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(server_addr));</span><br><span class="line"><span class="comment">//INADDR_ANY就是指定地址为0.0.0.0的地址，这个地址事实上表示不确定地址，</span></span><br><span class="line"><span class="comment">//或“所有地址”、“任意地址”。</span></span><br><span class="line">server_addr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line"><span class="comment">//协议--ipv4</span></span><br><span class="line">server_addr.sin_family = AF_INET;</span><br><span class="line"><span class="comment">//端口</span></span><br><span class="line">server_addr.sin_port = <span class="built_in">htons</span>(port);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">server_addr</span>;</span><br>u_short port = <span class="hljs-number">2344</span>;<br><span class="hljs-built_in">memset</span>((<span class="hljs-keyword">char</span>*)&amp;server_addr, <span class="hljs-number">0</span>, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(server_addr));<br><span class="hljs-comment">//INADDR_ANY就是指定地址为0.0.0.0的地址，这个地址事实上表示不确定地址，</span><br><span class="hljs-comment">//或“所有地址”、“任意地址”。</span><br>server_addr.sin_addr.s_addr = INADDR_ANY;<br><span class="hljs-comment">//协议--ipv4</span><br>server_addr.sin_family = AF_INET;<br><span class="hljs-comment">//端口</span><br>server_addr.sin_port = <span class="hljs-built_in">htons</span>(port);<br><br></code></pre></td></tr></table></figure>
 
 <p>指定端口号</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">bind</span>(serverSocket,(struct sockaddr *)&amp;server_addr, <span class="built_in"><span class="keyword">sizeof</span></span>(server_addr)) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;bind&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">bind</span>(serverSocket,(struct sockaddr *)&amp;server_addr, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(server_addr)) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">perror</span>(<span class="hljs-string">&quot;bind&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
 <p>监听，最大连接数量</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">listen</span>(serverSocket, <span class="number">5</span>) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;listen&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">listen</span>(serverSocket, <span class="hljs-number">5</span>) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">perror</span>(<span class="hljs-string">&quot;listen&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>   &#125;<br></code></pre></td></tr></table></figure>
 
 <p>等待连接</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> serverSocket,connectSocket;</span><br><span class="line">connectSocket = <span class="built_in">accept</span>(serverSocket, (struct sockaddr*)&amp;client_addr, </span><br><span class="line">												(<span class="keyword">socklen_t</span> *)&amp;addr_len);</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> serverSocket,connectSocket;<br>connectSocket = <span class="hljs-built_in">accept</span>(serverSocket, (struct sockaddr*)&amp;client_addr, <br>												(<span class="hljs-keyword">socklen_t</span> *)&amp;addr_len);<br></code></pre></td></tr></table></figure>
 
 <p>现在双方连接以及建立，就可以开始通信了。<code>recv</code>接收信息，<code>send</code>发送信息</p>
 <p><img src="Untitled1.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
 <p>9999则对应connectSocket</p>
 <h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>创建套接字</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> clientSocket;</span><br><span class="line"><span class="keyword">if</span>((clientSocket = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;socket&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> clientSocket;<br><span class="hljs-keyword">if</span>((clientSocket = <span class="hljs-built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>)) &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">perror</span>(<span class="hljs-string">&quot;socket&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
 <p>初始化连接对象状态</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line">server_addr.sin_family = AF_INET;</span><br><span class="line">server_addr.sin_port = <span class="built_in">htons</span>(<span class="number">2344</span>);</span><br><span class="line">server_addr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">server_addr</span>;</span><br>server_addr.sin_family = AF_INET;<br>server_addr.sin_port = <span class="hljs-built_in">htons</span>(<span class="hljs-number">2344</span>);<br>server_addr.sin_addr.s_addr = <span class="hljs-built_in">inet_addr</span>(<span class="hljs-string">&quot;127.0.0.1&quot;</span>);<br></code></pre></td></tr></table></figure>
 
 <p>客户端在编程是不需要绑定端口，OS会自动绑定的。</p>
 <p>连接</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">connect</span>(clientSocket, (struct sockaddr *)&amp;server_addr, <span class="built_in"><span class="keyword">sizeof</span></span>(server_addr)) &lt; <span class="number">0</span>)</span><br><span class="line"> &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;connect&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">connect</span>(clientSocket, (struct sockaddr *)&amp;server_addr, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(server_addr)) &lt; <span class="hljs-number">0</span>)<br> &#123;<br>        <span class="hljs-built_in">perror</span>(<span class="hljs-string">&quot;connect&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
 <p>开始信息交流</p>
 
@@ -326,7 +326,7 @@
                       <a href="/2021/11/22/HTTP-Server/">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">HTTP_Server</span>
-                        <span class="visible-mobile">Previous</span>
+                        <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
@@ -335,7 +335,7 @@
                     
                       <a href="/2021/11/17/hexo-blog/">
                         <span class="hidden-mobile">hexo blog</span>
-                        <span class="visible-mobile">Next</span>
+                        <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
@@ -352,7 +352,7 @@
     
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
@@ -378,7 +378,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -387,7 +387,7 @@
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">keyword</label>
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
