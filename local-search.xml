@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>CS144_notes</title>
+    <link href="/2022/05/09/CS144-notes/"/>
+    <url>/2022/05/09/CS144-notes/</url>
+    
+    <content type="html"><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><figure class="highlight livecodeserver"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><pre><code class="hljs livecodeserver">To run <span class="hljs-keyword">the</span> labs, you’ll need <span class="hljs-keyword">the</span> following software:<br><br>g++ <span class="hljs-built_in">version</span> <span class="hljs-number">8.</span>x<br>clang-tidy <span class="hljs-built_in">version</span> <span class="hljs-number">6</span> <span class="hljs-keyword">or</span> <span class="hljs-number">7</span><br>clang-<span class="hljs-built_in">format</span> <span class="hljs-built_in">version</span> <span class="hljs-number">6</span> <span class="hljs-keyword">or</span> <span class="hljs-number">7</span><br>cmake <span class="hljs-built_in">version</span> <span class="hljs-number">3</span> <span class="hljs-keyword">or</span> later<br>libpcap development headers (libpcap-dev <span class="hljs-keyword">on</span> <span class="hljs-title">Debian-like</span> <span class="hljs-title">distributions</span>)<br>git<br>iptables<br>mininet <span class="hljs-number">2.2</span><span class="hljs-number">.0</span> <span class="hljs-keyword">or</span> later<br>tcpdump<br>telnet<br>wireshark<br>socat<br>netcat-openbsd<br>GNU coreutils<br>bash<br>doxygen<br>graphviz<br>Note: there are <span class="hljs-keyword">at</span> least <span class="hljs-literal">three</span> versions <span class="hljs-keyword">of</span> netcat. You won’t be <span class="hljs-keyword">using</span> <span class="hljs-keyword">it</span> much, but when you <span class="hljs-built_in">do</span>, we will assume you’ve got <span class="hljs-keyword">the</span> OpenBSD variant. Others might also work, though <span class="hljs-keyword">it</span> is possible that they will <span class="hljs-built_in">require</span> different commandline flags.<br><br>We’ve tested <span class="hljs-keyword">the</span> labs <span class="hljs-keyword">with</span> recent Debian-derived systems (Ubuntu <span class="hljs-number">18.04</span> <span class="hljs-keyword">and</span> similar) <span class="hljs-keyword">and</span> Arch Linux. In all likelihood, other modern Linux distributions will also work.<br></code></pre></td></tr></table></figure><h3 id="问题1："><a href="#问题1：" class="headerlink" title="问题1："></a>问题1：</h3><p>g++ -v or gcc -v的版本是小于8，就会导致cmake的时候失败<br><br><br>解决：</p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vim">sudo apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span><br>sudo apt-<span class="hljs-built_in">get</span> install gcc-<span class="hljs-number">8</span><br>sudo apt-<span class="hljs-built_in">get</span> install g++-<span class="hljs-number">8</span><br><span class="hljs-keyword">cd</span> /usr/bin<br>sudo rm gcc g++<br>sudo <span class="hljs-keyword">ln</span> -s gcc-<span class="hljs-number">8</span> gcc<br>sudo <span class="hljs-keyword">ln</span> -s g++-<span class="hljs-number">8</span> g++<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS144</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>计算机网络</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>线程切换</title>
     <link href="/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/"/>
     <url>/2021/11/29/%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2/</url>
