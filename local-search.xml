@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>CS144_lab01</title>
+    <link href="/2022/05/13/CS144-lab01/"/>
+    <url>/2022/05/13/CS144-lab01/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Putting-substrings-in-sequence"><a href="#Putting-substrings-in-sequence" class="headerlink" title="Putting substrings in sequence"></a>Putting substrings in sequence</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>输入的数据格式为：一个字符串，该字符串在整个数据的起始位置index，该字符串是不是最后一个的标识。<br><br>目标：把这些无序的字符整理为有序数据。</p><h2 id="思维"><a href="#思维" class="headerlink" title="思维"></a>思维</h2><p>数据结构</p><figure class="highlight cpp"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs cpp">std::deque&lt;<span class="hljs-keyword">char</span>&gt; _buffer  <span class="hljs-comment">// 缓存区</span><br>std::deque&lt;<span class="hljs-keyword">bool</span>&gt; bitmap;    <span class="hljs-comment">// 与缓存区对应，判断bit是否可以发送。</span><br><span class="hljs-keyword">size_t</span> _index  <span class="hljs-comment">// 有序字符的下一个存储在缓存中的下标</span><br><span class="hljs-keyword">bool</span> _eof;    <span class="hljs-comment">// 数据流结束标识</span><br><span class="hljs-keyword">size_t</span> unass_size;    <span class="hljs-comment">// 未重组的个数</span><br></code></pre></td></tr></table></figure><p>1、index大于_index，导致[_index, index)区间出现空白。这就要等待该空白区域填满了之后，才能发送该片段。<br><br>2、index小于_index，就会出现重复的数据。根据index和_index求出偏移，就可以解决。<br><br>注意：只要数据是有序的，就把它交付出去。<br><br>3、最后一个数据段可能提前到了</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs C++">### <span class="hljs-function">push_substring</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StreamReassembler::push_substring</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string &amp;data, <span class="hljs-keyword">const</span> <span class="hljs-keyword">size_t</span> index, <span class="hljs-keyword">const</span> <span class="hljs-keyword">bool</span> eof)</span> </span>&#123;<br><br>    <span class="hljs-keyword">if</span>(eof) &#123;<br>        _eof = eof;<br>    &#125;<br><br>    <span class="hljs-keyword">size_t</span> len = data.<span class="hljs-built_in">length</span>();<br>    <span class="hljs-keyword">if</span>(len == <span class="hljs-number">0</span> &amp;&amp; _eof &amp;&amp; unass_size == <span class="hljs-number">0</span>) &#123;<br>        _output.<span class="hljs-built_in">end_input</span>();<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-comment">// 忽略无效下标</span><br>    <span class="hljs-keyword">if</span>(index &gt;= _index + _capacity) <span class="hljs-keyword">return</span>;<br><br>    <span class="hljs-keyword">if</span>(index &gt;= _index) &#123;<br>        <span class="hljs-keyword">size_t</span> offset = index - _index;     <span class="hljs-comment">// 计算偏移</span><br>        <span class="hljs-keyword">size_t</span> real_len = <span class="hljs-built_in">min</span>(len, _capacity - _output.<span class="hljs-built_in">buffer_size</span>() - offset);<br>        <span class="hljs-keyword">if</span>(real_len &lt; len) &#123;    <span class="hljs-comment">// 数据还没有传输完</span><br>            _eof = <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; real_len; ++i) &#123;<br>            <span class="hljs-comment">// 跳过重复数据([_index, A)一直为空白区，但是后面也有多种情况</span><br>            <span class="hljs-keyword">if</span>(bitmap[i + offset]) <span class="hljs-keyword">continue</span>;  <br>            <span class="hljs-comment">// _buffer和bitmap 一一对应  </span><br>            _buffer[i + offset] = data[i];<br>            bitmap[i + offset] = <span class="hljs-literal">true</span>;<br>            unass_size++;   <span class="hljs-comment">// 统计未重组的字符</span><br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(index + len &gt; _index) &#123;   <span class="hljs-comment">// 计算与已经传输的字符重复了，去重。</span><br>        <span class="hljs-keyword">size_t</span> offset = _index - index;<br>        <span class="hljs-comment">// 不能超过缓存区</span><br>        <span class="hljs-keyword">size_t</span> real_len = <span class="hljs-built_in">min</span>(len - offset, _capacity - _output.<span class="hljs-built_in">buffer_size</span>());<br>        <span class="hljs-keyword">if</span>(real_len &lt; len - offset) &#123;<br>            _eof = <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; real_len; ++i) &#123;<br>            <span class="hljs-keyword">if</span>(bitmap[i]) <span class="hljs-keyword">continue</span>;<br>            _buffer[i] = data[i + offset];  <span class="hljs-comment">// i + offset未重叠的部分</span><br>            bitmap[i] = <span class="hljs-literal">true</span>;<br>            unass_size++;<br>        &#125;<br>    &#125;<br>    <span class="hljs-built_in">check_contiguous</span>();<br>    <span class="hljs-keyword">if</span>(_eof &amp;&amp; unass_size == <span class="hljs-number">0</span>) &#123;<br>        _output.<span class="hljs-built_in">end_input</span>();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure><h3 id="check-contiguous"><a href="#check-contiguous" class="headerlink" title="check_contiguous"></a>check_contiguous</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">StreamReassembler::check_contiguous</span><span class="hljs-params">()</span> </span>&#123;<br>    string msg = <span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-keyword">while</span>(bitmap.<span class="hljs-built_in">front</span>()) &#123;<br>        msg += _buffer.<span class="hljs-built_in">front</span>();<br>        _buffer.<span class="hljs-built_in">pop_front</span>();<br>        bitmap.<span class="hljs-built_in">pop_front</span>();<br>        <span class="hljs-comment">// 保证缓存区大小固定</span><br>        _buffer.<span class="hljs-built_in">push_back</span>(<span class="hljs-string">&#x27;\0&#x27;</span>);<br>        bitmap.<span class="hljs-built_in">push_back</span>(<span class="hljs-literal">false</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">if</span>(msg.<span class="hljs-built_in">length</span>() &gt; <span class="hljs-number">0</span>) &#123;<br>        _output.<span class="hljs-built_in">write</span>(msg);<br>        unass_size -= msg.<span class="hljs-built_in">length</span>();<br>        _index += msg.<span class="hljs-built_in">length</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS144</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>计算机网络</tag>
+      
+      <tag>网络编程</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>TCP连接的建立和断开</title>
     <link href="/2022/05/13/TCP%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%BB%BA%E7%AB%8B%E5%92%8C%E6%96%AD%E5%BC%80/"/>
     <url>/2022/05/13/TCP%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%BB%BA%E7%AB%8B%E5%92%8C%E6%96%AD%E5%BC%80/</url>
@@ -152,9 +179,9 @@
     
     <tags>
       
-      <tag>应用层</tag>
-      
       <tag>网络编程</tag>
+      
+      <tag>应用层</tag>
       
     </tags>
     
@@ -173,9 +200,9 @@
     
     <tags>
       
-      <tag>应用层</tag>
-      
       <tag>网络编程</tag>
+      
+      <tag>应用层</tag>
       
     </tags>
     
